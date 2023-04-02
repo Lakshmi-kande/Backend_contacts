@@ -15,12 +15,12 @@ const errorHandler=(err, req, res, next)=>{
                 message:err.message, 
                 stackTrace: err.stack,
             });
-        case constants.UNATHORIZED:
-            res.json({
-                title:"Unathorized", 
-                message:err.message, 
-                stackTrace: err.stack,
-            });
+        // case constants.UNATHORIZED:
+        //     res.json({
+        //         title:"Unathorized", 
+        //         message:err.message, 
+        //         stackTrace: err.stack,
+        //     });
         case constants.FORBIDDEN:
             res.json({
                 title:"Forbidden", 
