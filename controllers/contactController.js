@@ -17,8 +17,7 @@ const createContact = asyncHandler(async(req,res)=>{
     console.log("The request body is:",req.body);
     const {name, email, phone}=req.body;
     if(!name || !email || !phone){
-        res.status(constants.VALIDATION_ERROR);
-        return res.json({ error: "All fields are mandatory!" });
+        throw new Error(constants.VALIDATION_ERROR);
     }
     const contact = await Contact.create({
         name,
@@ -35,8 +34,7 @@ const createContact = asyncHandler(async(req,res)=>{
 const getContact = asyncHandler(async(req,res)=>{
     const contact = await Contact.findById(req.params.id);
     if(!contact){
-        res.status(constants.NOT_FOUND);
-        return res.json({ error: "Contact not found" });
+        throw new Error(constants.NOT_FOUND);
     }
     res.status(200).json(contact);
 });
@@ -47,13 +45,11 @@ const getContact = asyncHandler(async(req,res)=>{
 const updateContact = asyncHandler(async(req,res)=>{
     const contact = await Contact.findById(req.params.id);
     if(!contact){
-        res.status(constants.NOT_FOUND);
-        return res.json({ error: "Contact not found" });
+        throw new Error(constants.NOT_FOUND);
     }
 
     if (contact.userId.toString() !== req.user.id){
-        res.status(constants.FORBIDDEN);
-        return res.json({ error: "User don't have permission to update other user contacts" });
+        throw new Error(constants.FORBIDDEN);
     }
 
     const updatedContact = await Contact.findByIdAndUpdate(
@@ -70,8 +66,7 @@ const updateContact = asyncHandler(async(req,res)=>{
 const deleteContact = asyncHandler(async(req,res) => {
     const contact = await Contact.findById(req.params.id);
     if(!contact){
-        res.status(constants.NOT_FOUND);
-        return res.json({ error: "Contact not found" });
+        throw new Error(constants.NOT_FOUND);
     }
     await Contact.deleteOne({ _id:req.params.id});
     res.status(200).json(contact);

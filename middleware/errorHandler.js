@@ -1,47 +1,25 @@
 const { constants } = require("../constants");
-const errorHandler = (err, req, res)=>{
-    switch(err.message){
-    case constants.NOT_FOUND:{
-        res.status(404);
-        res.json({
-            title:"Not_found",
-            message:err.message,
-            stackTrace: err.stack,
-        });
-    }break;
-    case constants.VALIDATION_ERROR:{
-        res.status(400);
-        res.json({
-            title:"Validation Error",
-            message:err.message,
-            stackTrace: err.stack,
-        });
-    }break;
-    case constants.UNATHORIZEDR:{
-        res.status(401);
-        res.json({
-            title:"Unathorized",
-            message:err.message,
-            stackTrace: err.stack,
-        });
-    }break;
-    case constants.FORBIDDEN:{
-        res.status(403);
-        res.json({
-            title:"Forbidden",
-            message:err.message,
-            stackTrace: err.stack,
-        });
-    }break;
-    case constants.SERVER_ERROR:{
-        res.status(500);
-        res.json({
-            title:"Server Error", 
-            message:err.message, 
-            stackTrace: err.stack
-        });
-    }
-    }
-};
 
+const errorHandler = (err, req, res, next) => {
+    const errorMessage = err.message;
+
+    switch (errorMessage) {
+    case constants.NOT_FOUND.toString(): {
+        res.status(constants.NOT_FOUND).json({
+            message: "contact not found",
+        });
+    }break;
+    case constants.VALIDATION_ERROR.toString():{
+        res.status(constants.VALIDATION_ERROR).json({
+            message: "All fields are mandatory!",
+        });
+    }break;
+    case constants.FORBIDDEN.toString():{
+        res.status(constants.FORBIDDEN).json({
+            message: "User don't have permission to update other user contacts",
+        });
+    }break;
+    }
+
+};
 module.exports = errorHandler;
