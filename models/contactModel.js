@@ -1,10 +1,10 @@
-const mongoose=require("mongoose");
+const mongoose = require("mongoose");
 
 const contactSchema = mongoose.Schema({
     userId:{
-        type:mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref:"user",
+        ref: "user",
     },
     name:{
         type: String,
@@ -20,10 +20,10 @@ const contactSchema = mongoose.Schema({
     },
 },
 {
-    timestamps:true,
-})
+    timestamps: true,
+});
 
-module.exports=mongoose.model("contact", contactSchema);
+module.exports = mongoose.model("contact", contactSchema);
 
 
 
