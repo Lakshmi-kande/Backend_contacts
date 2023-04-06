@@ -7,7 +7,7 @@ const Contact = require("../models/contactModel");
 // access private 
 const getContacts = asyncHandler (async(req,res)=>{
     const contacts = await Contact.find({userId: req.user.id});
-    res.status(200).json(contacts);
+    res.status(constants.SUCCESSFULL_REQUEST).json(contacts);
 });
 
 // desc Create New contact
@@ -25,7 +25,7 @@ const createContact = asyncHandler(async(req,res)=>{
         phone,
         userId : req.user.id,
     });
-    res.status(201).json(contact);
+    res.status(constants.SUCCESSFULL_POST).json(contact);
 });
 
 // desc Get contact
@@ -36,7 +36,7 @@ const getContact = asyncHandler(async(req,res)=>{
     if(!contact){
         throw new Error(constants.NOT_FOUND);
     }
-    res.status(200).json(contact);
+    res.status(constants.SUCCESSFULL_REQUEST).json(contact);
 });
 
 // desc update contact
@@ -57,7 +57,7 @@ const updateContact = asyncHandler(async(req,res)=>{
         req.body,
         {new:true}
     );
-    res.status(200).json(updatedContact);
+    res.status(constants.SUCCESSFULL_REQUEST).json(updatedContact);
 });
 
 // desc delete contact
@@ -69,7 +69,7 @@ const deleteContact = asyncHandler(async(req,res) => {
         throw new Error(constants.NOT_FOUND);
     }
     await Contact.deleteOne({ _id:req.params.id});
-    res.status(200).json(contact);
+    res.status(constants.SUCCESSFULL_REQUEST).json(contact);
 });
 module.exports={
     getContacts,
